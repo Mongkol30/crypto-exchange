@@ -62,7 +62,7 @@ Swagger: http://localhost:3000/api-docs
 
 
 
-
+![ER Diagram](docs/Er.png)
 
 
 
