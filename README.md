@@ -33,5 +33,5 @@ npx sequelize-cli db:seed:all
 ```bash
 node app.js
 ```
-### Docments
-Swagger: 📚 Docs: http://localhost:3000/api-docs
+### Testing
+Swagger: http://localhost:3000/api-docs
