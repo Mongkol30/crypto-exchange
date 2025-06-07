@@ -39,20 +39,26 @@ Swagger: http://localhost:3000/api-docs
 
 ## 🧪 Seed Data (สำหรับการทดสอบ)
 
-### 👤 Users
+### Users
 | Name       | user_id                                  |
 |------------|-------------------------------------------|
-| demo_user  | 11111111-1111-1111-1111-111111111111       |
+| alice123  | 00000000-0000-0000-0000-000000000001     |
+| bob456  | 00000000-0000-0000-0000-000000000002     |
 
-### 🪙 Crypto Currencies
+### Crypto Currencies
 | Symbol | crypto_id                                 |
 |--------|--------------------------------------------|
-| BTC    | cccccccc-cccc-cccc-cccc-cccccccc0001       |
+| BTC    | cccccc01-cc01-cc01-cc01-cccccccccc01     |
+| ETH    | cccccc02-cc02-cc02-cc02-cccccccccc02   |
+| XRP    | cccccc03-cc03-cc03-cc03-cccccccccc03     |
+| DOGE    | cccccc04-cc04-cc04-cc04-cccccccccc04     |
 
-### 💵 Fiat Currencies
+
+### Fiat Currencies
 | Symbol | fiat_id                                   |
 |--------|--------------------------------------------|
-| THB    | ffff0000-0000-0000-0000-000000000001       |
+| THB    | ffffff01-ff01-ff01-ff01-ffffffffff01       |
+| USD    | ffffff02-ff02-ff02-ff02-ffffffffff02      |
 
 
 
