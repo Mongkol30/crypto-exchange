@@ -71,7 +71,7 @@ exports.createTransaction = async (req, res) => {
         }
       });
 
-      if ((order.price_per_unit * amount_crypto || !fiatWallet) >= fiatWallet.balance) {
+      if ((order.price_per_unit * amount_crypto >= fiatWallet.balance ) || !fiatWallet) {
         return res.status(400).json({ error: 'Not enough coins in the wallet' });
       }
 
