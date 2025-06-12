@@ -1,26 +1,23 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+const { v4: uuidv4 } = require('uuid');
 module.exports = (sequelize, DataTypes) => {
   const Transaction = sequelize.define('Transaction', {
     transaction_id: {
-      type: DataTypes.UUID,
+      type: DataTypes.STRING,
       primaryKey: true,
-      defaultValue: DataTypes.UUIDV4,
+      defaultValue: uuidv4
     },
-    buyer_id: DataTypes.UUID,
-    seller_id: DataTypes.UUID,
-    order_id: DataTypes.UUID,
-    crypto_id: DataTypes.UUID,
-    fiat_id: DataTypes.UUID,
-    amount_crypto: DataTypes.DECIMAL,
-    total_price_fiat: DataTypes.DECIMAL,
+    buyer_id: DataTypes.STRING,
+    seller_id: DataTypes.STRING,
+    order_id: DataTypes.STRING,
+    crypto_id: DataTypes.STRING,
+    fiat_id: DataTypes.STRING,
+    amount_crypto: DataTypes.REAL,
+    total_price_fiat: DataTypes.REAL,
     created_at: DataTypes.DATE,
     completed_at: DataTypes.DATE,
   }, {
     tableName: 'Transactions',
-    timestamps: false, 
+    timestamps: false,
   });
 
   Transaction.associate = (models) => {

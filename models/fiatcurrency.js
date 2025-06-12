@@ -1,12 +1,7 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   const FiatCurrency = sequelize.define('FiatCurrency', {
     fiat_id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
+      type: DataTypes.STRING,
       primaryKey: true,
     },
     symbol: {
@@ -18,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     updated_at: DataTypes.DATE,
   }, {
     tableName: 'FiatCurrencies',
-    timestamps: false, 
+    timestamps: false,
   });
 
   FiatCurrency.associate = (models) => {

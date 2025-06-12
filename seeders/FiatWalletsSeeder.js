@@ -1,9 +1,5 @@
-'use strict';
-
-/** @type {import('sequelize-cli').Migration} */
-module.exports = {
-  async up (queryInterface, Sequelize) {
-    await queryInterface.bulkInsert('FiatWallets', [
+module.exports = async (db) => {
+    await db.FiatWallet.bulkCreate([
       {
         id: 1,
         wallet_id: '11111111-1111-1111-1111-111111111111',
@@ -20,10 +16,6 @@ module.exports = {
         created_at: new Date(),
         updated_at: new Date(),
       }
-    ], {});
-  },
-
-  async down (queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('FiatWallets', null, {});
-  }
-};
+    ]);
+  };
+  

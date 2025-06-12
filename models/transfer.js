@@ -1,27 +1,24 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+const { v4: uuidv4 } = require('uuid');
 module.exports = (sequelize, DataTypes) => {
   const Transfer = sequelize.define('Transfer', {
     transfer_id: {
-      type: DataTypes.UUID,
+      type: DataTypes.STRING,
       primaryKey: true,
-      defaultValue: DataTypes.UUIDV4,
+      defaultValue: uuidv4
     },
-    from_user_id: DataTypes.UUID,
-    to_user_id: DataTypes.UUID,
-    crypto_id: DataTypes.UUID,
-    amount_crypto: DataTypes.DECIMAL,
-    transfer_type: DataTypes.STRING, // เช่น 'internal' หรือ 'external'
+    from_user_id: DataTypes.STRING,
+    to_user_id: DataTypes.STRING,
+    crypto_id: DataTypes.STRING,
+    amount_crypto: DataTypes.REAL,
+    transfer_type: DataTypes.STRING,
     destination_address: DataTypes.STRING,
-    status: DataTypes.STRING, // เช่น 'pending', 'completed'
-    transaction_id: DataTypes.UUID,
+    status: DataTypes.STRING,
+    transaction_id: DataTypes.STRING,
     created_at: DataTypes.DATE,
     completed_at: DataTypes.DATE,
   }, {
     tableName: 'Transfers',
-    timestamps: false, 
+    timestamps: false,
   });
 
   Transfer.associate = (models) => {

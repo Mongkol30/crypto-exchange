@@ -4,10 +4,10 @@ const db = require('../models');
 exports.getAllOrder = async (req, res) => {
   try {
     const orders = await db.Order.findAll({
-       include: [
+      include: [
         {
           model: db.User,
-          attributes: ['user_name'], 
+          attributes: ['user_name'],
         },
         {
           model: db.CryptoCurrency,
@@ -52,11 +52,11 @@ exports.createOrder = async (req, res) => {
         }
       });
 
-      if ((price_per_unit*amount_crypto) >= fiatWallet.balance) {
+      if ((price_per_unit * amount_crypto) > fiatWallet.balance) {
         return res.status(400).json({ error: 'Not enough coins in the wallet' });
       }
-      
-    }else if (order_type == 'SELL') {
+
+    } else if (order_type == 'SELL') {
 
       var walletLink = await db.WalletOfUser.findOne({
         where: {
@@ -72,11 +72,11 @@ exports.createOrder = async (req, res) => {
         }
       });
 
-      if (amount_crypto >= cryptoWallet.balance) {
+      if (amount_crypto > cryptoWallet.balance) {
         return res.status(400).json({ error: 'Not enough coins in the wallet' });
       }
-      
-    }else{
+
+    } else {
       return res.status(400).json({ error: 'Check the information again' });
     }
 

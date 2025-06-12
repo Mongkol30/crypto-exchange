@@ -57,42 +57,43 @@ exports.createTransaction = async (req, res) => {
     }
 
     if (order.order_type == 'BUY') {
-      var walletLink = await db.WalletOfUser.findOne({
-        where: {
-          user_id: buyer_id,
-          wallet_type: 'FIAT',
-        }
+
+      const buyerWalletLink = await db.WalletOfUser.findOne({
+        where: { user_id: buyer_id, wallet_type: 'FIAT' }
       });
 
       const fiatWallet = await db.FiatWallet.findOne({
         where: {
-          wallet_id: walletLink.wallet_id,
+          wallet_id: buyerWalletLink.wallet_id,
           fiat_id: order.fiat_id
         }
       });
 
-      if ((order.price_per_unit * amount_crypto >= fiatWallet.balance ) || !fiatWallet) {
-        return res.status(400).json({ error: 'Not enough coins in the wallet' });
+      const total_price_fiat = amount_crypto * order.price_per_unit;
+
+      if (total_price_fiat > parseFloat(fiatWallet.balance)) {
+        return res.status(400).json({ error: 'Not enough fiat in the wallet' });
       }
 
     } else if (order.order_type == 'SELL') {
-      var walletLink = await db.WalletOfUser.findOne({
+
+      const buyerWalletLink = await db.WalletOfUser.findOne({
+        where: { user_id: buyer_id, wallet_type: 'FIAT' }
+      });
+
+      const fiatWallet = await db.FiatWallet.findOne({
         where: {
-          user_id: buyer_id,
-          wallet_type: 'CRYPTO',
+          wallet_id: buyerWalletLink.wallet_id,
+          fiat_id: order.fiat_id
         }
       });
 
-      const cryptoWallet = await db.CryptoWallet.findOne({
-        where: {
-          wallet_id: walletLink.wallet_id,
-          crypto_id: walletLink.crypto_id
-        }
-      });
+      const total_price_fiat = amount_crypto * order.price_per_unit;
 
-      if (amount_crypto >= cryptoWallet.balance) {
-        return res.status(400).json({ error: 'Not enough coins in the wallet' });
+      if (total_price_fiat > parseFloat(fiatWallet.balance)) {
+        return res.status(400).json({ error: 'Not enough fiat in the wallet' });
       }
+
     }
 
     const total_price_fiat = amount_crypto * order.price_per_unit;
@@ -115,8 +116,7 @@ exports.createTransaction = async (req, res) => {
       status: remaining === 0 ? 'COMPLETED' : 'OPEN',
       completed_at: remaining === 0 ? new Date() : null
     });
-    console.log(amount_crypto);
-    
+
 
     await performInternalTransfer({
       from_user_id: order.user_id,

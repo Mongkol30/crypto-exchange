@@ -11,17 +11,20 @@ exports.performInternalTransfer = async ({
   const senderWalletLink = await db.WalletOfUser.findOne({
     where: { user_id: from_user_id, wallet_type: 'CRYPTO' }
   });
+console.log(senderWalletLink)
+
   const senderWallet = await db.CryptoWallet.findOne({
     where: { wallet_id: senderWalletLink.wallet_id, crypto_id }
   });
-
+  console.log(senderWallet)
   const receiverWalletLink = await db.WalletOfUser.findOne({
     where: { user_id: to_user_id, wallet_type: 'CRYPTO' }
   });
+  console.log(receiverWalletLink)
   const receiverWallet = await db.CryptoWallet.findOne({
     where: { wallet_id: receiverWalletLink.wallet_id, crypto_id }
   });
-
+  console.log(receiverWallet)
   if (!senderWallet || !receiverWallet) {
     throw new Error('Wallet not found for sender or receiver');
   }
@@ -41,7 +44,7 @@ exports.performInternalTransfer = async ({
     crypto_id,
     amount_crypto,
     transfer_type: 'INTERNAL',
-    destination_address: receiverWallet.wallet_id,
+    destination_address: null,
     status: 'COMPLETED',
     transaction_id,
     created_at: new Date(),

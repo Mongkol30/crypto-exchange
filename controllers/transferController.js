@@ -6,12 +6,12 @@ exports.getAllTransfers = async (req, res) => {
       include: [
         {
           model: db.User,
-          as: 'Sender',
+          as: 'FromUser',
           attributes: ['user_id', 'user_name'],
         },
         {
           model: db.User,
-          as: 'Receiver',
+          as: 'ToUser', 
           attributes: ['user_id', 'user_name'],
         },
         {
@@ -43,9 +43,8 @@ exports.createTransfer = async (req, res) => {
   } = req.body;
 
   try {
-    // 1. หา wallet ฝั่งผู้ส่ง
     const senderWalletLink = await db.WalletOfUser.findOne({
-      where: { user_id: from_user_id, wallet_type: 'crypto' }
+      where: { user_id: from_user_id, wallet_type: 'CRYPTO' }
     });
 
     const senderWallet = await db.CryptoWallet.findOne({
@@ -59,11 +58,10 @@ exports.createTransfer = async (req, res) => {
       return res.status(400).json({ error: 'Sender has insufficient balance or no wallet' });
     }
 
-    // 2. หา wallet ปลายทาง (ถ้าเป็น internal)
     let receiverWallet;
-    if (transfer_type === 'internal') {
+    if (transfer_type === 'INTERNAL') {
       const receiverWalletLink = await db.WalletOfUser.findOne({
-        where: { user_id: to_user_id, wallet_type: 'crypto' }
+        where: { user_id: to_user_id, wallet_type: 'CRYPTO' }
       });
 
       receiverWallet = await db.CryptoWallet.findOne({
@@ -78,17 +76,14 @@ exports.createTransfer = async (req, res) => {
       }
     }
 
-    // 3. หักเงินผู้ส่ง
     senderWallet.balance -= amount_crypto;
     await senderWallet.save();
 
-    // 4. เพิ่มเงินผู้รับ (ถ้า internal)
-    if (transfer_type === 'internal') {
+    if (transfer_type === 'INTERNAL') {
       receiverWallet.balance += amount_crypto;
       await receiverWallet.save();
     }
 
-    // 5. สร้าง transfer record
     const transfer = await db.Transfer.create({
       from_user_id,
       to_user_id,

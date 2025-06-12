@@ -1,7 +1,3 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   const CryptoWallet = sequelize.define('CryptoWallet', {
     id: {
@@ -9,14 +5,14 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    wallet_id: DataTypes.UUID,
-    crypto_id: DataTypes.UUID,
-    balance: DataTypes.DECIMAL,
+    wallet_id: DataTypes.STRING,
+    crypto_id: DataTypes.STRING,
+    balance: DataTypes.REAL,
     created_at: DataTypes.DATE,
     updated_at: DataTypes.DATE,
   }, {
     tableName: 'CryptoWallets',
-    timestamps: false, 
+    timestamps: false,
   });
 
   CryptoWallet.associate = (models) => {
